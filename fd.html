@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html> 
+
+<head> 
+
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+
+  <title>Google Maps Multiple Markers</title> 
+
+  <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+
+</head> 
+
+<body>
+
+  <div id="map" style="width: 500px; height: 400px;"></div>
+
+
+
+  <script type="text/javascript">
+
+    var locations = [
+                ['광주 첨단 종합 병원',35.22112396871781, 126.84532908412129],
+                ['북구 보건소',35.173566207936474, 126.9121044401983],
+                ['광주 KS 병원',35.198111993796715, 126.8332004132186],
+                ['광주 일곡 병원',35.203016180963374, 126.89763149787237]
+
+    ];
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+
+      zoom: 12,
+
+      center: new google.maps.LatLng(35.1595454, 126.8526012),
+
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+
+    });
+
+
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {  
+
+      marker = new google.maps.Marker({
+        id:i,
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map
+
+      });
+
+
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+
+        return function() {
+
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+
+        }
+
+      })(marker, i));
+
+      if(marker)
+
+      {
+
+        marker.addListener('click', function() {
+          map.setZoom(15);
+          map.setCenter(this.getPosition());
+
+        });
+
+        }
+
+    }
+
+
+
+  </script>
+
+</body>
+
+</html>
